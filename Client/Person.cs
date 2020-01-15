@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client
 {
-    class Person
+    public class Person: IComparable
     {
         public int IdNumber { get; }
         public string FirstName { get; }
@@ -23,5 +19,11 @@ namespace Client
         {
             return this.IdNumber+". "+this.FirstName+" "+this.FamilyName;
         }
+
+        public int CompareTo(object obj)
+        {
+            return IdNumber.CompareTo(obj);
+        }       
+
     }
 }
