@@ -7,6 +7,19 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
+
+    public struct PersonInfo
+    {
+        public int ID;
+        public string firstName;
+        public string lastName;
+        public PersonInfo(int newId, string newFirstName, string newLastName)
+        {
+            ID = newId;
+            firstName = newFirstName;
+            lastName = newLastName;
+        }
+    }
     public class Database: IDatabase
     {
         protected string name;
@@ -17,22 +30,10 @@ namespace DataAccess
         }
 
 
-        /// <summary>
-        /// Retrieves data from database.
-        /// Thrown exceptions:
-        /// - ConnectionClosedException - Attempt to retieve data from a closed connection.
-        /// </summary>
-        /// <param name="connection">Connection to database</param>
-        /// <returns>Dane
-        /// Data is retrieved as ten dictonaries. Each contains 3 keys: IdNumber, FirstName, FamilyName.
-        /// Subsequent keys values are:
-        /// - idNumber (int): subsequent numbers from 0 to 9
-        /// - firstName (string): First_name_0, First_name_1, ..., First_name_9
-        /// - familyName (string): Family_name_0, Family_name_1, ..., Family_name_9</returns>
-
         public List<Dictionary<string, object>> GetData(IConnection connection)
         {
-            List<Dictionary<string, object>> outputData = new List<Dictionary<string, object>>();       
+            
+            List<Dictionary<string,object>> outputData = new List<Dictionary<string, object>>();       
             
             if (connection.IsOpen() == false)
             {
@@ -40,8 +41,15 @@ namespace DataAccess
             }
             else
             {
+                var persons = new Dictionary<string, object>();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    persons.Add($"{i}", new PersonInfo(i, $"First_name_{i}", $"Last_name_{i}"));
+                }
+                outputData.Add(persons);
                 return outputData;
-            }            
+            }
         }
 
         
